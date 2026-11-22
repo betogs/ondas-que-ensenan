@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+<title>Ondas que enseñan · Folleto digital</title>
+<style>
+:root{--ink:#1D2B33;--muted:#5B6F78;--teal:#2E2F6E;--river:#4F5BB0;--sun:#C2552A;--clay:#A8466E;--cream:#F6F1E7;--paper:#FFFCF6;--line:#E3DACA;--top:62px;--bot:64px}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--cream);color:var(--ink);font:16px/1.55 "Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow:hidden}
+h1,h2,h3,h4{font-family:"Montserrat","Inter",system-ui,sans-serif;line-height:1.15;margin:0}
+a{color:var(--river)}
+/* barra superior */
+header.top{position:fixed;top:0;left:0;right:0;height:var(--top);background:var(--teal);color:#fff;display:flex;align-items:center;gap:18px;padding:0 22px;z-index:5;box-shadow:0 4px 18px #2e2f6e33}
+header.top .brand{font-family:Montserrat,Inter,sans-serif;font-weight:800;letter-spacing:.04em;white-space:nowrap;font-size:1rem;cursor:pointer}
+header.top .brand small{display:block;font-family:Inter;font-weight:400;letter-spacing:0;opacity:.75;font-size:.72rem}
+nav.tabs{display:flex;gap:4px;flex:1;justify-content:flex-end;overflow-x:auto;scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs button{display:flex;align-items:center;gap:8px;border:0;background:transparent;color:#fff;opacity:.82;padding:8px 12px;border-radius:999px;cursor:pointer;font:inherit;font-size:.9rem;white-space:nowrap}
+nav.tabs button .n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#ffffff22;font-size:.75rem;font-weight:700}
+nav.tabs button:hover{background:#ffffff18;opacity:1}
+nav.tabs button[aria-current="true"]{background:#fff;color:var(--teal);opacity:1;font-weight:700}
+nav.tabs button[aria-current="true"] .n{background:var(--sun);color:#fff}
+/* lienzo */
+main{position:fixed;top:var(--top);bottom:var(--bot);left:0;right:0;padding:12px clamp(14px,2.4vw,40px) 18px;overflow:hidden}
+.page{display:none;height:100%;max-width:1500px;margin:0 auto;flex-direction:column;gap:10px;will-change:transform}
+.sheet{--gut:clamp(56px,6vw,104px);position:relative;flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:14px;
+  padding:clamp(18px,2.6vh,34px) clamp(22px,3vw,50px) 34px;border-radius:6px 6px 10px 10px;
+  background:linear-gradient(90deg,transparent calc(50% - 46px),#2e2f6e0a calc(50% - 14px),#2e2f6e26 calc(50% - 1px),#2e2f6e40 50%,#2e2f6e26 calc(50% + 1px),#2e2f6e0a calc(50% + 14px),transparent calc(50% + 46px)),
+   linear-gradient(90deg,#EFE6D3 0,var(--paper) 3.5%,var(--paper) 96.5%,#EFE6D3 100%);
+  box-shadow:0 1px 0 #E6DDCB,0 3px 0 -1px #FFFAF0,0 4px 0 -1px #DED4C0,0 6px 0 -2px #FFFAF0,0 7px 0 -2px #D6CBB5,0 16px 34px #2e2f6e24;border:1px solid #E6DDCB}
+.sheet .pn{position:absolute;bottom:10px;font-size:.75rem;color:var(--muted);font-family:Montserrat,Inter,sans-serif;font-weight:700}
+.sheet .pn.l{left:clamp(22px,3vw,50px)}.sheet .pn.r{right:clamp(22px,3vw,50px)}
+.page.on{display:flex}
+.ph{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;flex:none}
+.ph .kicker{font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sun);font-weight:700}
+.ph h2{font-size:clamp(1.35rem,2.2vw,2rem);color:var(--teal)}
+.ph .sub{font-size:.75rem;font-weight:700;color:var(--river);background:#EEEFFA;border-radius:99px;padding:2px 10px}
+.lead{font-size:1.03rem;color:#2C3E46;text-align:center;max-width:1000px;margin:0 auto}
+.cols{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--gut);row-gap:16px;flex:1;min-height:0;align-items:start}
+.col{display:flex;flex-direction:column;gap:12px;min-width:0}
+h3{font-size:1.05rem;color:var(--teal);margin-top:4px}
+p{margin:0}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.card h4{margin:0 0 5px;color:var(--teal);font-size:.98rem}
+.card p+p{margin-top:5px}
+.cite{color:var(--muted);font-size:.84rem}
+.note{border-left:5px solid var(--sun);background:#FFF4EC;padding:10px 14px;border-radius:0 12px 12px 0}
+.pill{display:inline-block;background:#EEEFFA;color:var(--teal);border-radius:99px;padding:2px 10px;font-size:.78rem;font-weight:600}
+ul{margin:4px 0 0;padding-left:20px}li{margin:2px 0}
+details{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+details summary{cursor:pointer;padding:10px 14px;font-weight:700;font-family:Montserrat,Inter,sans-serif;list-style:none;display:flex;gap:10px;align-items:center;font-size:.95rem}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"＋";margin-left:auto;color:var(--muted)}
+details[open] summary::after{content:"－"}
+details summary .tag{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:9px;color:#fff;flex:none}
+details[open] summary{border-bottom:1px solid var(--line)}
+details .body{padding:8px 16px 12px;font-size:.94rem}
+details .body p+p{margin-top:6px}
+.s{background:var(--sun)}.c{background:var(--teal)}.i1{background:var(--clay)}.i2{background:var(--river)}
+img.info{width:100%;height:100%;object-fit:contain;border-radius:14px;cursor:zoom-in;min-height:0}
+.fill{flex:1;min-height:0;display:flex;justify-content:center}
+/* infografía HTML */
+.info-g{position:relative;flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:clamp(10px,1.6vh,22px) var(--gut);padding:2px 0}
+.q4{background:#fff;border:3px solid var(--qc);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 6px 18px #2e2f6e12}
+.qs{--qc:var(--sun)}.qc{--qc:var(--teal)}.qi{--qc:var(--clay)}.qv{--qc:var(--river)}
+.qh{background:var(--qc);color:#fff;display:flex;align-items:center;gap:12px;padding:clamp(5px,.9vh,10px) 16px}
+.qh .ql{display:grid;place-items:center;width:clamp(28px,4vh,38px);height:clamp(28px,4vh,38px);border-radius:10px;background:#ffffff2e;font:800 1.3rem Montserrat,Inter,sans-serif;flex:none}
+.qh>div{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.qh b{font:800 clamp(.95rem,2vh,1.15rem) Montserrat,Inter,sans-serif;letter-spacing:.03em;text-transform:uppercase}
+.qh small{opacity:.85;font-style:italic;font-size:.82rem}
+.q4 ul{margin:0;padding:clamp(4px,1vh,12px) 18px clamp(4px,1vh,12px) 34px;display:flex;flex-direction:column;justify-content:space-evenly;flex:1;font-size:clamp(.8rem,.55rem + .95vh,1rem);line-height:1.35}
+.q4 li{margin:1px 0}
+.q4 li::marker{color:var(--qc)}
+.hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:clamp(110px,10vw,150px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#FBEBDD);border:4px dashed var(--teal);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 8px 26px #2e2f6e2e;z-index:2}
+.hub span{font-size:clamp(1.6rem,2.4vw,2.2rem)}
+.info-g::before,.info-g::after{content:"";position:absolute;background:repeating-linear-gradient(90deg,var(--teal) 0 8px,transparent 8px 16px);opacity:.35;z-index:1}
+.info-g::before{left:25%;right:25%;top:50%;height:3px}
+.sheet.noGut{background:linear-gradient(90deg,#EFE6D3 0,var(--paper) 3.5%,var(--paper) 96.5%,#EFE6D3 100%)}
+.info-g::after{top:20%;bottom:20%;left:50%;width:3px;background:repeating-linear-gradient(180deg,var(--teal) 0 8px,transparent 8px 16px)}
+/* page turn */
+.turn{position:fixed;z-index:4;pointer-events:none;perspective:2600px}
+.turn .tclone{position:absolute;inset:0;margin:0;width:100%;height:100%;overflow:hidden;box-shadow:none}
+.turn .leaf{position:absolute;inset:0;transform-style:preserve-3d;transform-origin:50% 50%}
+.turn .face{-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.turn .face.back{transform:rotateY(180deg)}
+.turn .shade{position:absolute;inset:0;opacity:0;pointer-events:none}
+.turn .shade.sr{background:linear-gradient(90deg,transparent 50%,#2e2f6e22 70%,#2e2f6e55 100%)}
+.turn .shade.sl{background:linear-gradient(270deg,transparent 50%,#2e2f6e22 70%,#2e2f6e55 100%)}
+.colors{display:flex;flex-direction:column;gap:6px}.colors>div{background:#fff;border:1px solid var(--line);border-left:8px solid var(--c);border-radius:10px;padding:7px 12px;font-size:.92rem}.colors b{color:var(--c);margin-right:6px;filter:brightness(.8)}
+/* portada */
+.cover{position:relative;overflow:hidden;align-items:center;justify-content:space-between;text-align:center;color:#fff;
+  height:100%;width:min(50%,750px);max-width:none;padding:clamp(20px,3.4vh,40px) clamp(24px,3vw,44px) clamp(18px,3vh,34px) clamp(40px,4vw,58px);
+  background:radial-gradient(circle at 80% 12%,#ffffff1f 0 18%,transparent 19%),radial-gradient(circle at 12% 92%,#ffffff12 0 20%,transparent 21%),linear-gradient(165deg,#2E2F6E 0%,#3E3F8C 55%,#4F5BB0 100%);
+  border-radius:6px 18px 18px 6px;box-shadow:inset 24px 0 26px -18px #00000070,6px 6px 0 #E8DFCB,8px 8px 0 #CFC3AA,0 22px 44px #2e2f6e40}
+.cover::before{content:"";position:absolute;left:24px;top:0;bottom:0;width:3px;background:#ffffff2a}
+.cover::after{content:"";position:absolute;inset:14px 14px 14px 36px;border:1.5px solid #ffffff38;border-radius:4px 12px 12px 4px;pointer-events:none}
+.cover .ctop{font-size:clamp(.66rem,1.3vh,.8rem);letter-spacing:.3em;text-transform:uppercase;font-weight:700;color:#FFD9C2}
+.cover h1{font-size:clamp(2.2rem,7vh,4.4rem);line-height:.98;margin:clamp(6px,2.2vh,24px) 0 0;text-shadow:0 4px 18px #00000030}
+.cover .motto{display:flex;gap:clamp(5px,.8vh,9px);flex-wrap:nowrap;justify-content:center}
+.cover .motto span{font:800 clamp(.85rem,2.3vh,1.45rem) Montserrat,Inter,sans-serif;padding:.28em .75em;border-radius:999px;color:#2E2F6E;box-shadow:0 4px 0 #00000026;letter-spacing:.02em}
+.cover .m1{background:#8FD3E0}.cover .m2{background:#FFC857}.cover .m3{background:#F4B6B0}
+.cover .art{width:100%;flex:1;min-height:0;max-height:42vh;margin:clamp(4px,1vh,12px) 0;filter:drop-shadow(0 10px 16px #00000030)}
+.cover .tag{font-size:clamp(.82rem,1.7vh,1rem);opacity:.92;max-width:46ch;margin:0 auto}
+.cover .start{margin-top:clamp(8px,1.6vh,18px);background:#fff;color:var(--teal);border:0;padding:clamp(8px,1.3vh,12px) 24px;border-radius:999px;font-weight:700;cursor:pointer;font-size:clamp(.88rem,1.7vh,1rem);position:relative;z-index:2;box-shadow:0 4px 0 #00000030}
+.cover .start:hover{transform:translateY(-1px)}
+/* portada viva */
+.cover .art g,.cover .art path,.cover .art rect,.cover .art circle{transform-box:fill-box;transform-origin:center}
+.a-brain{animation:bob 4.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-7px) scale(1.03)}}
+.a-eyes{animation:blink 5s infinite}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+.a-heart{animation:beat 1.6s ease-in-out infinite}
+@keyframes beat{0%,40%,100%{transform:scale(1)}15%{transform:scale(1.14)}28%{transform:scale(1.04)}}
+.a-lupa{animation:search 5s ease-in-out infinite}
+@keyframes search{0%,100%{transform:translate(0,0) rotate(0)}25%{transform:translate(-6px,4px) rotate(-8deg)}50%{transform:translate(4px,8px) rotate(6deg)}75%{transform:translate(6px,-2px) rotate(-4deg)}}
+.a-puzzle{animation:float 4.8s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-9px) rotate(14deg)}}
+.a-blocks .b1{animation:hop 3s ease-in-out infinite}
+.a-blocks .b2{animation:hop 3s ease-in-out .18s infinite}
+.a-blocks .b3{animation:hop 3s ease-in-out .36s infinite}
+@keyframes hop{0%,60%,100%{transform:translateY(0)}70%{transform:translateY(-6px)}80%{transform:translateY(0)}}
+.cover .sp{animation:twinkle 2.6s ease-in-out infinite}
+.cover .sp.s2{animation-delay:.9s}.cover .sp.s3{animation-delay:1.7s}
+@keyframes twinkle{0%,100%{opacity:.25;transform:scale(.6) rotate(0)}50%{opacity:1;transform:scale(1.15) rotate(45deg)}}
+.a-glow{animation:glow 4.2s ease-in-out infinite}
+@keyframes glow{0%,100%{opacity:.7}50%{opacity:1}}
+.cover .motto span{animation:pill 3.6s ease-in-out infinite}
+.cover .motto .m2{animation-delay:.4s}.cover .motto .m3{animation-delay:.8s}
+@keyframes pill{0%,70%,100%{transform:translateY(0)}80%{transform:translateY(-4px)}90%{transform:translateY(0)}}
+.cover .start{animation:nudge 2.8s ease-in-out infinite}
+@keyframes nudge{0%,100%{box-shadow:0 4px 0 #00000030,0 0 0 0 #ffffff66}50%{box-shadow:0 4px 0 #00000030,0 0 0 10px #ffffff00}}
+@media (prefers-reduced-motion:reduce){.cover *{animation:none!important}}
+/* flip cards */
+.flip{perspective:1000px;height:clamp(170px,27vh,260px);cursor:pointer}
+.flip .in{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.flip.f .in{transform:rotateY(180deg)}
+.flip .fa,.flip .fb{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;padding:16px 18px;overflow:auto}
+.flip .fa{background:var(--teal);color:#fff;display:flex;flex-direction:column;justify-content:space-between}
+.flip .fa .ico{font-size:2.2rem}.flip .fa h4{color:#fff;font-size:1.12rem}.flip .fa small{opacity:.8}
+.flip .fb{background:#fff;border:2px solid var(--teal);transform:rotateY(180deg);font-size:.88rem}
+.flip .fb b{color:var(--teal)}.flip .fb p+p{margin-top:6px}
+/* ruta */
+.route{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.route button{border:2px solid var(--line);background:#fff;border-radius:12px;padding:10px;cursor:pointer;font:inherit;text-align:left}
+.route button b{display:block;font-family:Montserrat,Inter,sans-serif;color:var(--teal);font-size:.92rem}
+.route button small{color:var(--muted);font-size:.78rem}
+.route button.on{border-color:var(--sun);background:#FFF4EC}
+.phase{display:none}.phase.on{display:block}
+.phase p+p{margin-top:8px}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th,td{border:1px solid var(--line);padding:7px 9px;vertical-align:top;text-align:left}
+th{background:#EEEFFA;color:var(--teal)}
+/* sliders */
+.rate{display:grid;grid-template-columns:170px 1fr 48px;gap:12px;align-items:center;margin:7px 0}
+.rate input{width:100%;accent-color:var(--sun)}
+.bar{height:10px;border-radius:99px;background:#EDE6D8;overflow:hidden;margin-top:3px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--river),var(--sun));width:0;transition:width .3s}
+.quiz .opt{display:inline-block;margin:4px 6px 4px 0;padding:7px 16px;border-radius:10px;border:1px solid var(--line);background:#fff;font:inherit;cursor:pointer}
+.quiz .opt.ok{background:#E3F3EA;border-color:#3D9A6A}.quiz .opt.no{background:#FBE7E5;border-color:var(--clay)}
+.quiz .q+.q{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.quiz .fb{font-size:.86rem;color:var(--muted);min-height:1.2em}
+.check label{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px dashed var(--line)}
+.check input{margin-top:5px;accent-color:var(--river);transform:scale(1.2)}
+ol.refs{columns:2;column-gap:var(--gut);margin:0;padding-left:22px;font-size:.98rem;line-height:1.5}
+ol.refs li{break-inside:avoid;margin:0 0 12px;padding-left:4px}ol.refs a{word-break:break-all}
+.video{display:flex;gap:16px;align-items:center;text-decoration:none;background:var(--teal);color:#fff;border-radius:14px;padding:16px}
+.video .play{display:grid;place-items:center;width:58px;height:58px;border-radius:50%;background:var(--sun);font-size:1.5rem;flex:none}
+/* paginador */
+.pager{position:fixed;left:0;right:0;bottom:0;height:var(--bot);background:#fffcf6f2;backdrop-filter:blur(6px);border-top:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 clamp(14px,2.4vw,40px);z-index:5}
+.pager button{flex:none;white-space:nowrap;border:0;background:var(--teal);color:#fff;padding:9px 18px;border-radius:999px;font:inherit;font-weight:600;cursor:pointer}
+.pager button:disabled{opacity:.35;cursor:default}
+.pager .prog{flex:1 1 60px;min-width:40px;height:7px;background:#EDE6D8;border-radius:99px;overflow:hidden}
+.pager .prog i{display:block;height:100%;background:var(--sun);transition:width .4s}
+.pager .where{font-size:.86rem;color:var(--muted);white-space:nowrap;flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.pager #pg{flex:none}
+.pager .b-t{}
+.dots{display:flex;gap:6px}.dots i{width:9px;height:9px;border-radius:50%;background:#D9CFBC;cursor:pointer}.dots i.on{background:var(--sun);width:22px;border-radius:99px}
+.lightbox{position:fixed;inset:0;background:#000c;display:none;place-items:center;z-index:9;padding:20px;cursor:zoom-out}
+.lightbox.on{display:grid}.lightbox img{max-width:100%;max-height:100%;border-radius:10px}
+/* transición slide */
+main{overflow:hidden}
+.page.out-f{animation:outF .38s cubic-bezier(.4,0,.2,1) forwards}
+.page.in-f{animation:inF .42s cubic-bezier(.2,0,0,1) both}
+.page.out-b{animation:outB .38s cubic-bezier(.4,0,.2,1) forwards}
+.page.in-b{animation:inB .42s cubic-bezier(.2,0,0,1) both}
+@keyframes outF{to{transform:translateX(-60%);opacity:0}}
+@keyframes inF{from{transform:translateX(60%);opacity:0}to{transform:none;opacity:1}}
+@keyframes outB{to{transform:translateX(60%);opacity:0}}
+@keyframes inB{from{transform:translateX(-60%);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.page.out-f,.page.out-b,.page.in-f,.page.in-b{animation-duration:.01s}}
+@media (max-width:1560px){nav.tabs button:not([aria-current="true"]) .t{display:none}nav.tabs button:not([aria-current="true"]){padding:8px}}
+@media (max-width:760px){#where{display:none}}
+@media (max-width:520px){.pager .b-t{display:none}.pager button{padding:9px 14px}.pager{gap:10px}}
+@media (max-width:640px){nav.tabs button .t{display:none!important}header.top .brand{font-size:.85rem}}
+@media (max-width:900px){html,body{overflow:auto}main{position:static;margin-top:var(--top);margin-bottom:var(--bot);overflow:visible}.cover{height:auto;width:100%;aspect-ratio:auto;min-height:80vh}.page{height:auto}.sheet{background:var(--paper);overflow:visible}.sheet .pn{display:none}.cols,.cols.c64,.cols.c46,.g2,.g3,.g4,.route,.info-g{grid-template-columns:1fr}.info-g{grid-template-rows:auto;gap:14px}.hub,.info-g::before,.info-g::after{display:none}ol.refs{columns:1}header.top .brand small{display:none}.dots{display:none}.rate{grid-template-columns:1fr 48px}.rate .lbl{grid-column:1/-1}}
+@media print{header.top,.pager{display:none}html,body{overflow:visible}main{position:static}.page{display:flex!important;height:auto;break-after:page;box-shadow:none}}
+/* añadidos del folleto Ondas que enseñan */
+.skip{position:absolute;left:-999px;top:0;background:#fff;color:var(--teal);padding:8px 14px;z-index:20;border-radius:0 0 10px 0}
+.skip:focus{left:0}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.a-sens circle{animation:pulse 2.4s ease-in-out infinite}
+.a-sens circle:nth-child(2){animation-delay:.4s}.a-sens circle:nth-child(3){animation-delay:.8s}.a-sens circle:nth-child(4){animation-delay:1.2s}.a-sens circle:nth-child(5){animation-delay:1.6s}
+@keyframes pulse{0%,100%{fill:#8FD3E0}50%{fill:#FFD27A}}
+.a-wave{stroke-dasharray:420;animation:draw 4s ease-in-out infinite}
+@keyframes draw{0%{stroke-dashoffset:420}60%,100%{stroke-dashoffset:0}}
+.a-book{animation:bob 4.6s ease-in-out infinite}
+.a-pencil{animation:float 4.8s ease-in-out infinite}
+.loop{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px;counter-reset:l}
+.loop li{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:0;position:relative}
+.loop li>span{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--teal);color:#fff;font:800 1rem Montserrat,Inter,sans-serif;flex:none}
+.loop li:nth-child(2)>span{background:var(--river)}.loop li:nth-child(3)>span{background:var(--sun)}.loop li:nth-child(4)>span{background:var(--clay)}
+.loop b{font-family:Montserrat,Inter,sans-serif;color:var(--teal);display:block}
+.loop small{color:#3D4F57;font-size:.88rem;line-height:1.4;display:block}
+.sim .lbl{display:block;font-weight:700;color:var(--teal);margin-top:6px}
+.sim input[type=range]{width:100%;accent-color:var(--sun);height:30px}
+.sim .scale{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}
+.sim .wave{background:#F1F1F9;border-radius:12px;margin:10px 0;height:90px;padding:8px}
+.sim .wave svg{width:100%;height:100%}
+.sim #simOut{min-height:3em}
+.flips .flip{height:clamp(200px,30vh,270px)}
+.q4 .ql{font-size:1.1rem}
+#refl .opts{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.page.cover .ctop{position:relative;z-index:1}
+@media (max-width:900px){.loop{grid-template-columns:1fr}}
+@media (max-width:900px){html,body{overflow-x:hidden}.ph h2{font-size:1.3rem;text-wrap:balance;padding:0 8px}.sheet{padding:16px 14px 24px}table{font-size:.82rem}.cover .motto span{font-size:.85rem}.quiz .opt{white-space:normal;max-width:100%}}
+.sig{offset-path:path("M176 112 C214 104 214 176 252 168");animation:travel 2.4s linear infinite}
+.sig.s2{animation-delay:.8s}.sig.s3{animation-delay:1.6s}
+@keyframes travel{0%{offset-distance:0%;opacity:0}10%,90%{opacity:1}100%{offset-distance:100%;opacity:0}}
+.a-dash{animation:dash 1.6s linear infinite}@keyframes dash{to{stroke-dashoffset:-26}}
+.a-scr{stroke-dasharray:200;animation:draw 3.6s ease-in-out infinite}
+.lv{transform-box:fill-box;transform-origin:bottom;animation:lvl 3.6s ease-in-out infinite}
+.lv.l2{animation-delay:.3s}.lv.l3{animation-delay:.6s}
+@keyframes lvl{0%,100%{transform:scaleY(.35)}50%{transform:scaleY(1)}}
+.a-prog{transform-box:fill-box;transform-origin:left;animation:prog 3.6s ease-in-out infinite}
+@keyframes prog{0%{transform:scaleX(.15)}70%,100%{transform:scaleX(1)}}
+.a-star{transform-box:fill-box;transform-origin:center;animation:beat 1.8s ease-in-out infinite}
+.a-kid{animation:bob 4.4s ease-in-out infinite}
+.cover .art{max-height:54vh}
+@media (prefers-reduced-motion:reduce){.sig{display:none}}
+.hub{background:#fff;border:0;padding:8px;width:clamp(128px,11vw,160px);box-shadow:0 0 0 6px var(--paper),0 10px 28px #2e2f6e33}
+.hub::before{content:"";position:absolute;inset:-6px;border-radius:50%;padding:6px;background:conic-gradient(var(--teal) 0 25%,var(--river) 25% 50%,var(--clay) 50% 75%,var(--sun) 75% 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.hub::after{content:"";position:absolute;inset:8px;border-radius:50%;border:1.5px dashed #2e2f6e33}
+.hub svg{width:62%;height:auto;margin-bottom:2px}
+.hub-w{stroke:var(--sun);stroke-dasharray:160;animation:draw 3.4s ease-in-out infinite}
+.hub strong{font:800 clamp(1rem,1.4vw,1.25rem)/1.05 Montserrat,Inter,sans-serif;color:var(--teal)}
+.hub em{font-style:normal;font-size:.72rem;line-height:1.2;color:var(--muted);margin-top:2px}
+.info-g::before,.info-g::after{opacity:.5}
+</style>
+</head>
+<body>
+<a class="skip" href="#book">Saltar al contenido</a>
+<header class="top">
+  <div class="brand" onclick="go(0)" role="button" tabindex="0">ONDAS QUE ENSEÑAN<small>Neurotecnología educativa y TDAH</small></div>
+  <nav class="tabs" id="tabs" aria-label="Secciones del folleto"></nav>
+</header>
+<main id="book">
+
+<!-- PORTADA -->
+<section class="page cover" data-sec="0" data-name="Portada" data-n="★">
+  <h1>Ondas que<br>enseñan</h1>
+  <div class="motto"><span class="m1">Atiendo</span><span class="m2">me regulo</span><span class="m3">aprendo</span></div>
+  <svg class="art" viewBox="0 0 420 300" role="img" aria-label="Un niño con un gorro de sensores de electroencefalografía trabaja frente a una tableta; su señal cerebral viaja por un cable hasta la pantalla, que ajusta el nivel de la actividad de matemáticas y lectura y le devuelve retroalimentación">
+    <defs>
+      <radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff" stop-opacity=".32"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+      <marker id="ah" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#FFD27A"/></marker>
+    </defs>
+    <circle class="a-glow" cx="210" cy="150" r="145" fill="url(#glow)"/>
+    <!-- bucle de retroalimentación -->
+    <path d="M312 104 Q262 24 184 84" fill="none" stroke="#FFD27A" stroke-width="3" stroke-dasharray="6 7" marker-end="url(#ah)" class="a-dash"/>
+    <!-- escritorio -->
+    <rect x="40" y="232" width="340" height="14" rx="7" fill="#F6E1C3" stroke="#2E2F6E" stroke-width="3.5"/>
+    <rect x="70" y="246" width="12" height="40" rx="4" fill="#E9C99C" stroke="#2E2F6E" stroke-width="3"/><rect x="338" y="246" width="12" height="40" rx="4" fill="#E9C99C" stroke="#2E2F6E" stroke-width="3"/>
+    <!-- cable de señal -->
+    <path id="wire" d="M176 112 C214 104 214 176 252 168" fill="none" stroke="#8FD3E0" stroke-width="3" stroke-linecap="round"/>
+    <circle class="sig s1" r="5" fill="#FFD27A"/><circle class="sig s2" r="5" fill="#FFD27A"/><circle class="sig s3" r="5" fill="#FFD27A"/>
+    <!-- niño -->
+    <g class="a-kid">
+      <path d="M92 232 Q92 176 136 174 Q180 176 180 232Z" fill="#FFC857" stroke="#2E2F6E" stroke-width="3.5"/>
+      <path d="M120 176 L136 196 L152 176" fill="none" stroke="#2E2F6E" stroke-width="3" stroke-linejoin="round"/>
+      <rect x="126" y="160" width="20" height="18" rx="6" fill="#F2C29B" stroke="#2E2F6E" stroke-width="3"/>
+      <circle cx="136" cy="126" r="40" fill="#F2C29B" stroke="#2E2F6E" stroke-width="3.5"/>
+      <path d="M98 118 Q100 82 136 84 Q172 82 174 118 Q160 100 136 104 Q112 100 98 118Z" fill="#5A3A2E" stroke="#2E2F6E" stroke-width="3" stroke-linejoin="round"/>
+      <!-- gorro EEG -->
+      <path d="M97 116 Q100 76 136 74 Q172 76 175 116" fill="none" stroke="#2E2F6E" stroke-width="3"/>
+      <path d="M106 96 Q136 78 166 96" fill="none" stroke="#2E2F6E" stroke-width="2.5"/>
+      <g class="a-sens"><circle cx="100" cy="112" r="6.5" fill="#8FD3E0" stroke="#2E2F6E" stroke-width="2.5"/><circle cx="112" cy="86" r="6.5" fill="#8FD3E0" stroke="#2E2F6E" stroke-width="2.5"/><circle cx="136" cy="76" r="6.5" fill="#8FD3E0" stroke="#2E2F6E" stroke-width="2.5"/><circle cx="160" cy="86" r="6.5" fill="#8FD3E0" stroke="#2E2F6E" stroke-width="2.5"/><circle cx="172" cy="112" r="6.5" fill="#8FD3E0" stroke="#2E2F6E" stroke-width="2.5"/></g>
+      <g class="a-eyes"><circle cx="150" cy="128" r="4.5" fill="#2E2F6E"/><circle cx="168" cy="128" r="4.5" fill="#2E2F6E"/></g>
+      <path d="M150 145 Q160 152 170 144" fill="none" stroke="#2E2F6E" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="146" cy="139" r="5" fill="#F4A58A" opacity=".7"/>
+      
+    </g>
+    <!-- tableta -->
+    <g transform="translate(246 112)">
+      <rect x="0" y="0" width="140" height="112" rx="12" fill="#2E2F6E" stroke="#1E1F4D" stroke-width="3"/>
+      <rect x="8" y="8" width="124" height="96" rx="7" fill="#fff"/>
+      <path class="a-scr" d="M14 30 l7 -12 l7 18 l7 -14 l7 10 q5 -6 10 0 q5 6 10 0 q5 -6 10 0 q5 6 10 0 q5 -6 10 0 q5 6 10 0 q5 -6 10 0" fill="none" stroke="#C2552A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="14" y="46" width="34" height="28" rx="6" fill="#8FD3E0" stroke="#2E2F6E" stroke-width="2"/><text x="31" y="65" text-anchor="middle" font-family="Montserrat,Inter,sans-serif" font-weight="800" font-size="13" fill="#2E2F6E">123</text>
+      <rect x="54" y="46" width="34" height="28" rx="6" fill="#F4B6B0" stroke="#2E2F6E" stroke-width="2"/><text x="71" y="65" text-anchor="middle" font-family="Montserrat,Inter,sans-serif" font-weight="800" font-size="13" fill="#2E2F6E">ABC</text>
+      <g transform="translate(98 74)"><rect class="lv l1" x="0" y="-10" width="8" height="10" rx="2" fill="#2E8B57"/><rect class="lv l2" x="11" y="-18" width="8" height="18" rx="2" fill="#C98A1B"/><rect class="lv l3" x="22" y="-26" width="8" height="26" rx="2" fill="#C2552A"/></g>
+      <rect x="14" y="82" width="112" height="12" rx="6" fill="#EDE6D8"/><rect class="a-prog" x="14" y="82" width="112" height="12" rx="6" fill="#4F5BB0"/>
+    </g>
+    <!-- estrella de logro -->
+    <path class="a-star" d="M372 92 l5 11 12 1 -9 8 3 12 -11 -6 -11 6 3 -12 -9 -8 12 -1z" fill="#FFC857" stroke="#2E2F6E" stroke-width="2.5" stroke-linejoin="round"/>
+    <g fill="#fff"><path class="sp s1" d="M60 70 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z"/><path class="sp s2" d="M36 170 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z"/><path class="sp s3" d="M396 196 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z"/></g>
+  </svg>
+  <button class="start" onclick="go(1)">Abrir el folleto →</button>
+</section>
+
+<!-- 1 EL CASO a -->
+<section class="page" data-sec="1" data-name="El caso" data-n="1">
+  <div class="ph"><span class="kicker">01 · El caso</span><h2>Ficha del caso</h2></div>
+  <div class="cols c64">
+    <div class="col">
+      <p class="lead" style="text-align:left">El trastorno por déficit de atención e hiperactividad (TDAH) afecta la atención, el control de impulsos y el rendimiento escolar. Las respuestas más usadas, como la medicación y la terapia conductual, no siempre dan resultados parejos. Por eso Li et al. (2025) probaron otra vía, el <b>aprendizaje adaptativo guiado por electroencefalografía (EEG)</b>, en el que la actividad eléctrica del cerebro orienta el entrenamiento cognitivo de cada niño.</p>
+      <table>
+        <tr><th style="width:32%">Aspecto</th><th>Descripción</th></tr>
+        <tr><td><b>Estudio</b></td><td>Li, Tian, Xu, Pei, Huang y Wang (2025). <i>Child: Care, Health and Development, 51</i>(4).</td></tr>
+        <tr><td><b>Población</b></td><td>60 niños de 8 a 12 años con diagnóstico de TDAH.</td></tr>
+        <tr><td><b>Contexto</b></td><td>Equipo vinculado a un hospital de rehabilitación infantil en Chengdu (China). Los participantes cursaban básica primaria y los primeros grados de secundaria.</td></tr>
+        <tr><td><b>Diseño</b></td><td>Ensayo controlado aleatorizado con un grupo que recibió aprendizaje adaptativo guiado por EEG y un grupo control que siguió con el apoyo educativo habitual.</td></tr>
+        <tr><td><b>Duración</b></td><td>8 semanas de entrenamiento cognitivo monitoreado con EEG.</td></tr>
+        <tr><td><b>Necesidad</b></td><td>Dificultades de atención sostenida, control de impulsos y desempeño académico.</td></tr>
+      </table>
+    </div>
+    <div class="col">
+      <div class="card"><h4>🎯 Objetivo pedagógico</h4><p>Fortalecer el control cognitivo (atención e inhibición de impulsos) para que los niños rindan mejor en matemáticas, lectura y escritura.</p></div>
+      <div class="card"><h4>🧠 Tecnología</h4><p>Se usó la electroencefalografía, que registra con sensores en el cuero cabelludo la actividad eléctrica del cerebro mientras el niño hace tareas. Con esa información se ajusta el entrenamiento.</p></div>
+      <div class="card"><h4>✅ ¿Por qué lo elegimos?</h4><p>Es reciente, está publicado en una revista indexada, compara los resultados con un grupo control y mide el rendimiento académico, algo que muchos estudios de neurofeedback no hacen.</p></div>
+      <div class="card"><h4>🧭 Cómo leer este folleto</h4><p>Usa el menú superior, los botones inferiores o las flechas del teclado. Toca las tarjetas para voltearlas, abre los desplegables y prueba las actividades.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 1 EL CASO b -->
+<section class="page" data-sec="1" data-name="El caso" data-n="1">
+  <div class="ph"><span class="kicker">01 · El caso</span><h2>Mitos y evidencias</h2></div>
+  <div class="cols">
+    <div class="col">
+      <p>La neurotecnología educativa reúne herramientas que registran o estimulan la actividad cerebral para apoyar el aprendizaje, como el EEG, las interfaces cerebro-computador, el neurofeedback, la realidad virtual o la inteligencia artificial. Barreto Ramírez et al. (2023) la presentan como una estrategia didáctica para mejorar la atención en estudiantes de educación básica.</p>
+      <p>Sin embargo, la tecnología por sí misma no garantiza el aprendizaje. Meza Montes y Mendoza Zambrano (2023) muestran que las tecnologías emergentes solo cambian la práctica cuando el docente se forma para usarlas con criterio pedagógico. Por esa razón, en este folleto analizamos el caso desde la neurociencia, la neuropedagogía, la inclusión y la ética.</p>
+      <div class="grid g2">
+        <div class="card"><h4>🔬 Neurocientífica</h4><p>Qué ocurre en el cerebro.</p></div>
+        <div class="card"><h4>📚 Neuropedagógica</h4><p>Cómo se traduce en el aula.</p></div>
+        <div class="card"><h4>🤝 Inclusiva</h4><p>A quién llega y cómo se adapta.</p></div>
+        <div class="card"><h4>⚖️ Ética</h4><p>Qué se protege y quién decide.</p></div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="quiz card" id="quiz">
+        <h4>¿Mito o evidencia?</h4>
+        <div class="q" data-ok="1"><p><b>1.</b> Un EEG puede leer los pensamientos de un niño.</p><button class="opt">Evidencia</button><button class="opt">Mito</button><p class="fb" aria-live="polite"></p></div>
+        <div class="q" data-ok="0"><p><b>2.</b> El EEG registra cambios en la actividad eléctrica del cerebro relacionados con la atención.</p><button class="opt">Evidencia</button><button class="opt">Mito</button><p class="fb" aria-live="polite"></p></div>
+        <div class="q" data-ok="1"><p><b>3.</b> Si un niño usa neurotecnología, ya no necesita al docente.</p><button class="opt">Evidencia</button><button class="opt">Mito</button><p class="fb" aria-live="polite"></p></div>
+        <div class="q" data-ok="0"><p><b>4.</b> Los datos cerebrales son información sensible que debe protegerse.</p><button class="opt">Evidencia</button><button class="opt">Mito</button><p class="fb" aria-live="polite"></p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 SECUENCIA -->
+<section class="page" data-sec="2" data-name="Secuencia metodológica" data-n="2">
+  <div class="ph"><span class="kicker">02 · Secuencia metodológica</span><h2>Así se desarrolló la intervención</h2></div>
+  <div class="cols">
+    <div class="col">
+      <p>En el estudio se midió a los niños antes de la intervención y se volvió a medir al terminar, y los resultados se compararon con los de un grupo que no usó la tecnología. Toca cada momento para ver qué se hizo.</p>
+      <div class="route" id="route">
+        <button class="on"><b>1. Selección y asignación</b><small>¿Quiénes participan?</small></button>
+        <button><b>2. Evaluación inicial</b><small>Medir antes</small></button>
+        <button><b>3. Entrenamiento adaptativo</b><small>8 semanas con EEG</small></button>
+        <button><b>4. Evaluación final</b><small>Medir y comparar</small></button>
+      </div>
+      <div class="phase on card"><h4>Selección y asignación aleatoria</h4>
+        <p>Participaron 60 niños de 8 a 12 años con diagnóstico de TDAH. Se repartieron al azar en dos grupos. Uno recibió el aprendizaje adaptativo guiado por EEG y el otro siguió con el apoyo educativo habitual.</p>
+        <p>Repartir a los niños al azar evita que los que tienen menos dificultades queden todos en el mismo grupo. Así, las diferencias que aparecen al final se pueden atribuir con más confianza a la intervención.</p></div>
+      <div class="phase card"><h4>Evaluación inicial (pre)</h4>
+        <p>Antes de empezar se registraron en cada niño la relación theta/beta, la potencia alfa frontal y la amplitud del P300 en el EEG. También se evaluaron su capacidad de atención y su control de impulsos, y su desempeño en matemáticas, comprensión lectora y escritura.</p></div>
+      <div class="phase card"><h4>Entrenamiento cognitivo adaptativo</h4>
+        <p>Durante 8 semanas, el grupo experimental realizó tareas de entrenamiento cognitivo mientras el EEG monitoreaba su actividad cerebral. La propuesta combina el neurofeedback con tareas que se adaptan a cada niño, de modo que el entrenamiento cambia según lo que la señal cerebral muestra sobre su atención.</p>
+        <p class="cite">El resumen publicado no detalla los juegos ni las reglas exactas de ajuste, por lo que aquí describimos la lógica general del modelo.</p></div>
+      <div class="phase card"><h4>Evaluación final (post) y comparación</h4>
+        <p>Al terminar se repitieron las mismas mediciones y se compararon los cambios de cada grupo. El grupo guiado por EEG mejoró en los tres niveles, mientras que el grupo control no tuvo cambios significativos.</p></div>
+    </div>
+    <div class="col">
+      <h3>Línea de tiempo</h3>
+      <table>
+        <tr><th>Momento</th><th>Cuándo</th><th>Qué se obtiene</th></tr>
+        <tr><td><b>Asignación</b></td><td>Inicio</td><td>Dos grupos comparables de niños con TDAH.</td></tr>
+        <tr><td><b>Pre</b></td><td>Semana 0</td><td>Línea base cerebral, conductual y académica.</td></tr>
+        <tr><td><b>Intervención</b></td><td>Semanas 1 a 8</td><td>Entrenamiento con monitoreo EEG en el grupo experimental.</td></tr>
+        <tr><td><b>Post</b></td><td>Semana 8</td><td>Cambios de cada grupo y comparación entre ellos.</td></tr>
+      </table>
+      <div class="note">Esta secuencia se parece a la de una buena clase, en la que el docente primero diagnostica, luego enseña haciendo ajustes según el avance y al final evalúa a cada estudiante frente a su propio punto de partida.</div>
+      <div class="card"><h4>Del laboratorio al aula</h4><p>Lo que se puede replicar en el aula es la secuencia de trabajo. Se mide el punto de partida, se practica en sesiones cortas y frecuentes, se ajusta la dificultad y se evalúa el progreso de cada estudiante.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 NEUROTECNOLOGÍA a -->
+<section class="page" data-sec="3" data-name="La neurotecnología" data-n="3">
+  <div class="ph"><span class="kicker">03 · Integración de la neurotecnología</span><h2>¿Cómo se integra el EEG al aprendizaje?</h2></div>
+  <div class="cols">
+    <div class="col">
+      <p>Mientras el niño trabaja, el EEG registra su actividad cerebral y el sistema estima qué tan concentrado está. Con esa información ajusta la tarea y le muestra al niño cómo va, y el niño vuelve a intentarlo. Este ciclo se repite muchas veces en cada sesión.</p>
+      <ol class="loop" aria-label="Ciclo del aprendizaje adaptativo guiado por EEG">
+        <li><span>1</span><div><b>Registrar</b><small>Los sensores captan la actividad eléctrica mientras el niño hace la tarea.</small></div></li>
+        <li><span>2</span><div><b>Interpretar</b><small>El sistema estima el nivel de atención a partir de marcadores como la relación theta/beta.</small></div></li>
+        <li><span>3</span><div><b>Ajustar</b><small>La tarea se vuelve más difícil si el niño está concentrado y le ofrece más apoyo si se dispersa.</small></div></li>
+        <li><span>4</span><div><b>Retroalimentar</b><small>El niño ve cómo va y aprende a reconocer cuándo está atento.</small></div></li>
+      </ol>
+      <div class="note">Desde la neuropedagogía, el mayor aporte de este ciclo está en que el niño aprende a darse cuenta de cuándo está atento y cuándo se distrae, y así fortalece su autorregulación y su metacognición.</div>
+    </div>
+    <div class="col">
+      <div class="card sim" id="sim"><h4>Prueba el ciclo (simulación ilustrativa)</h4>
+        <p class="cite">Mueve el control para ver cómo reaccionaría un sistema adaptativo. Se trata de una versión simplificada para fines didácticos y no reproduce el procedimiento del estudio.</p>
+        <label for="tbr" class="lbl">Señal de atención del niño</label>
+        <input type="range" id="tbr" min="1" max="5" value="3" aria-describedby="simOut">
+        <div class="scale"><span>Muy concentrado</span><span>Muy disperso</span></div>
+        <div class="wave" aria-hidden="true"><svg viewBox="0 0 300 60" preserveAspectRatio="none"><path id="wavePath" fill="none" stroke-width="3" stroke-linecap="round"/></svg></div>
+        <p id="simOut" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 NEUROTECNOLOGÍA b -->
+<section class="page" data-sec="3" data-name="La neurotecnología" data-n="3">
+  <div class="ph"><span class="kicker">03 · Integración de la neurotecnología</span><h2>Tres señales cerebrales que se midieron</h2></div>
+  <div class="cols">
+    <div class="col"><p class="cite">Toca cada tarjeta para ver qué mide la señal y qué encontró el estudio.</p><div class="grid g3 flips">
+      <div class="flip" tabindex="0" role="button" aria-label="Relación theta/beta, voltear tarjeta"><div class="in"><div class="fa"><span class="ico">〰️</span><div><h4>Relación theta/beta</h4><small>Ondas lentas frente a rápidas</small></div><small>Tocar para voltear ↻</small></div>
+        <div class="fb"><p>Compara las ondas lentas (theta) con las rápidas (beta). En muchos niños con TDAH esta relación aparece elevada.</p><p>En el grupo EEG bajó de forma significativa (p &lt; 0,001).</p></div></div></div>
+      <div class="flip" tabindex="0" role="button" aria-label="Potencia alfa frontal, voltear tarjeta"><div class="in"><div class="fa"><span class="ico">🎚️</span><div><h4>Alfa frontal</h4><small>Actividad en la zona frontal</small></div><small>Tocar para voltear ↻</small></div>
+        <div class="fb"><p>Es el ritmo alfa que se registra en la región frontal, relacionada con el control ejecutivo.</p><p>Aumentó (p &lt; 0,01), y los autores lo interpretan como un mejor control cognitivo.</p></div></div></div>
+      <div class="flip" tabindex="0" role="button" aria-label="Amplitud del P300, voltear tarjeta"><div class="in"><div class="fa"><span class="ico">⚡</span><div><h4>Amplitud P300</h4><small>Respuesta a un estímulo</small></div><small>Tocar para voltear ↻</small></div>
+        <div class="fb"><p>Es una onda que aparece unos 300 ms después de un estímulo importante y refleja cuánta atención se le dedica.</p><p>Aumentó (p &lt; 0,001), lo que indica un mayor compromiso con la tarea.</p></div></div></div>
+    </div>
+      <div class="note">Estos marcadores describen lo que ocurre en un grupo y no sirven para diagnosticar a un niño en particular. La relación theta/beta, por ejemplo, es útil en la investigación, pero por sí sola no permite saber si alguien tiene TDAH.</div>
+    </div>
+    <div class="col">
+      <h3>Atención, memoria, emoción y autorregulación</h3>
+      <div class="card"><h4>🎯 Atención</h4><p>Es el proceso que más se entrena, porque el EEG informa en tiempo real si el niño mantiene la concentración.</p></div>
+      <div class="card"><h4>🧩 Memoria de trabajo</h4><p>Las tareas de entrenamiento piden retener y usar información, una habilidad que se necesita en matemáticas y en comprensión lectora.</p></div>
+      <div class="card"><h4>💛 Emoción y motivación</h4><p>La retroalimentación inmediata y el formato de reto hacen que la tarea sea más atractiva, y un niño motivado mantiene mejor la atención.</p></div>
+      <div class="card"><h4>🔁 Autorregulación</h4><p>Al ver su propia señal, el niño aprende a reconocer cuándo se distrae y a retomar la tarea, lo que lo acerca al aprendizaje autónomo.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 IMPACTO a -->
+<section class="page" data-sec="4" data-name="Impacto" data-n="4">
+  <div class="ph"><span class="kicker">04 · Impacto en el aprendizaje y la conducta</span><h2>Infografía de resultados</h2></div>
+  <div class="info-g">
+    <div class="q4 qs"><div class="qh"><span class="ql">🧠</span><div><b>Cerebro</b><small>Marcadores del EEG</small></div></div><ul>
+      <li>La relación theta/beta <b>disminuye</b> (p &lt; 0,001)</li><li>La potencia alfa frontal <b>aumenta</b> (p &lt; 0,01)</li><li>La amplitud del P300 <b>aumenta</b> (p &lt; 0,001)</li><li>Hay mayor control de la atención</li></ul></div>
+    <div class="q4 qc"><div class="qh"><span class="ql">🙋</span><div><b>Conducta</b><small>Lo que se observa</small></div></div><ul>
+      <li>La capacidad de atención <b>mejora</b> (p &lt; 0,001)</li><li>El control de impulsos <b>mejora</b> (p &lt; 0,01)</li><li>Se mantienen más tiempo en la tarea</li><li>Responden de forma menos impulsiva</li></ul></div>
+    <div class="q4 qi"><div class="qh"><span class="ql">📚</span><div><b>Aprendizaje</b><small>Desempeño académico</small></div></div><ul>
+      <li>Mejoran en <b>matemáticas</b> (p &lt; 0,001)</li><li>Mejoran en <b>comprensión lectora</b> (p &lt; 0,002)</li><li>Mejoran en <b>escritura</b> (p &lt; 0,001)</li><li>El grupo control no cambia de forma significativa</li></ul></div>
+    <div class="q4 qv"><div class="qh"><span class="ql">⚠️</span><div><b>Precauciones</b><small>Lo que aún no sabemos</small></div></div><ul>
+      <li>Participaron solo 60 niños de un mismo contexto</li><li>No hubo grupo placebo</li><li>No hubo seguimiento después de las 8 semanas</li><li>Los resultados son de grupo y pueden variar en cada niño</li></ul></div>
+    <div class="hub" role="img" aria-label="Centro de la infografía: resultados del estudio">
+      <svg viewBox="0 0 80 34" aria-hidden="true"><path class="hub-w" d="M2 17 l6 -12 l6 22 l6 -18 l6 14 l5 -8 q4 -5 8 0 q4 5 8 0 q4 -5 8 0 q4 5 8 0 q4 -5 8 0" fill="none" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <strong>Resultados</strong><em>del estudio</em></div>
+  </div>
+  <p class="cite" style="text-align:center">Datos tomados del resumen publicado de Li et al. (2025).</p>
+</section>
+
+<!-- 4 IMPACTO b -->
+<section class="page" data-sec="4" data-name="Impacto" data-n="4">
+  <div class="ph"><span class="kicker">04 · Impacto en el aprendizaje y la conducta</span><h2>Lectura crítica de los resultados</h2></div>
+  <div class="cols">
+    <div class="col">
+      <h3>Fortalezas</h3>
+      <div class="card"><h4>Mejoras en tres áreas</h4><p>Los cambios en el EEG coincidieron con mejoras en la conducta y en las áreas escolares. Que los tres niveles avancen juntos es la mejor señal de que la intervención tuvo un efecto real.</p></div>
+      <div class="card"><h4>Comparación entre grupos</h4><p>El grupo que recibió el apoyo educativo habitual no mejoró de forma significativa. Esto indica que los avances del otro grupo tienen que ver con la intervención y no solo con el paso del tiempo.</p></div>
+      <h3>Limitaciones</h3>
+      <details><summary><span class="tag s">1</span>Posible efecto de novedad</summary><div class="body"><p>El grupo control siguió con el apoyo habitual y no hizo una tarea parecida sin EEG. Por eso, parte de la mejora puede deberse a la novedad, al tiempo extra o a la atención adicional que recibieron los niños.</p></div></details>
+      <details><summary><span class="tag c">2</span>Sin seguimiento</summary><div class="body"><p>Las mediciones terminan en la semana 8. No sabemos si los avances duran meses después ni si se trasladan a otras materias.</p></div></details>
+      <details><summary><span class="tag i1">3</span>¿Se puede replicar?</summary><div class="body"><p>60 niños de un solo contexto no representan la diversidad de aulas como las nuestras, con otros recursos, otras lenguas y otras realidades familiares.</p></div></details>
+    </div>
+    <div class="col">
+      <h3>Otro estudio similar</h3>
+      <div class="card"><h4>Neurofeedback con fNIRS (Rahimpour Jounghani et al., 2024)</h4>
+        <p>Este estudio, propuesto por el grupo como alternativa, entrenó la memoria de trabajo de niños de 7 a 11 años con TDAH durante 12 sesiones, usando fNIRS para dar retroalimentación sobre la activación prefrontal.</p>
+        <table><tr><th>Indicador</th><th>Neurofeedback</th><th>Atención habitual</th></tr>
+        <tr><td>Mejoraron en memoria de trabajo (BRIEF-2)</td><td>85,7 %</td><td>40 %</td></tr>
+        <tr><td>Mejoraron en el índice de TDAH (Conners 3)</td><td>52,4 %</td><td>13,3 %</td></tr></table>
+        <p style="margin-top:6px">Solo 36 de 77 niños terminaron (en parte por la pausa del COVID-19) y no se midió el rendimiento académico.</p></div>
+      <div class="note">Los dos estudios coinciden en que entrenar la atención o la memoria de trabajo con información del propio cerebro puede ayudar a los niños con TDAH. El de Li et al. (2025) además muestra mejoras en matemáticas, lectura y escritura, que son las áreas que más le interesan a la escuela.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 INCLUSIÓN a -->
+<section class="page" data-sec="5" data-name="Inclusión y ética" data-n="5">
+  <div class="ph"><span class="kicker">05 · Perspectiva inclusiva y adaptativa</span><h2>Recursos adaptativos</h2></div>
+  <div class="cols">
+    <div class="col">
+      <h3>Apoyos utilizados</h3>
+      <div class="card"><h4>⚙️ Dificultad que se ajusta</h4><p>La tarea cambia según la respuesta de cada niño, en lugar de exigir el mismo ritmo a todos. Esto coincide con el diseño universal para el aprendizaje, que propone ofrecer distintos niveles de reto y de apoyo.</p></div>
+      <div class="card"><h4>👀 Retroalimentación inmediata</h4><p>El niño sabe al instante cómo va. Para un estudiante con TDAH, que suele perder el hilo con instrucciones largas, esto reduce la frustración y mantiene el interés.</p></div>
+      <div class="card"><h4>⏱️ Práctica corta y frecuente</h4><p>El entrenamiento se mantuvo durante ocho semanas. Practicar en sesiones cortas y repetidas ayuda a consolidar lo aprendido mejor que una sola sesión larga.</p></div>
+    </div>
+    <div class="col">
+      <h3>Criterios de evaluación diferenciados</h3>
+      <table>
+        <tr><th style="width:28%">Nivel</th><th>Qué se evalúa</th><th style="width:30%">Cómo se usa en el aula</th></tr>
+        <tr><td><b>Cerebral</b></td><td>Theta/beta, alfa frontal, P300</td><td>Sin equipo, se reemplaza por la observación de la atención.</td></tr>
+        <tr><td><b>Conductual</b></td><td>Capacidad de atención y control de impulsos</td><td>Registro de tiempo en tarea y respuestas impulsivas.</td></tr>
+        <tr><td><b>Académico</b></td><td>Matemáticas, comprensión lectora y escritura</td><td>Pruebas cortas antes y después de cada ciclo.</td></tr>
+      </table>
+      <div class="note">El estudio valoró el cambio de cada participante entre el inicio y el final. En el aula, esto equivale a evaluar cuánto avanzó cada estudiante en lugar de compararlo con el promedio del grupo.</div>
+      <div class="card"><h4>Accesibilidad de este folleto</h4><p>Colores con buen contraste, tipografía legible, navegación con teclado, textos alternativos en las ilustraciones y enlaces activos en las referencias.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 ÉTICA b -->
+<section class="page" data-sec="5" data-name="Inclusión y ética" data-n="5">
+  <div class="ph"><span class="kicker">05 · Perspectiva ética</span><h2>Consideraciones éticas</h2></div>
+  <div class="cols">
+    <div class="col">
+      <p>Un EEG registra información que viene directamente del cerebro de un niño. Guerrero (2025) plantea que en Colombia esa información exige proteger la autodeterminación informativa, la integridad y la identidad mental frente a las neurotecnologías.</p>
+      <div class="grid g3">
+        <div class="card"><h4>🔒 Privacidad mental</h4><p>Los datos cerebrales son sensibles, así que debe quedar claro quién los guarda y para qué se usan.</p></div>
+        <div class="card"><h4>🛡️ Integridad</h4><p>Ninguna técnica debe usarse si genera malestar o riesgo para el niño.</p></div>
+        <div class="card"><h4>🪞 Identidad</h4><p>Un dato no define a un estudiante ni debe servir para etiquetarlo.</p></div>
+      </div>
+      <div class="note">El resumen publicado del caso no detalla cómo se protegieron los datos ni cómo participaron los niños en la decisión. Al llevar la experiencia a otro contexto, estas preguntas tienen que resolverse antes de empezar.</div>
+    </div>
+    <div class="col"><div class="card check" id="check"><h4>Lista ética antes de usar una neurotecnología</h4>
+      <label><input type="checkbox"> La familia firmó un consentimiento informado y sabe qué se registra.</label>
+      <label><input type="checkbox"> El niño dio su asentimiento con explicaciones que entiende.</label>
+      <label><input type="checkbox"> Hay un propósito pedagógico claro y por escrito.</label>
+      <label><input type="checkbox"> Se sabe quién guarda los datos, dónde y por cuánto tiempo.</label>
+      <label><input type="checkbox"> Los resultados no se usan para etiquetar ni excluir.</label>
+      <label><input type="checkbox"> El docente y el orientador acompañan todo el proceso.</label>
+      <p class="cite" id="checkMsg" style="margin-top:8px" aria-live="polite"></p></div></div>
+  </div>
+</section>
+
+<!-- 6 RECOMENDACIONES a -->
+<section class="page" data-sec="6" data-name="Recomendaciones" data-n="6">
+  <div class="ph"><span class="kicker">06 · Recomendaciones para otros contextos</span><h2>Propuestas para nuestro contexto</h2></div>
+  <div class="cols">
+    <div class="col">
+      <p>En muchas instituciones de nuestras regiones, como las de La Mojana en Sucre, no hay equipos de EEG, la conectividad es irregular y los grupos son numerosos. Aun así, la lógica del caso se puede adaptar sin tecnología costosa.</p>
+      <table>
+        <tr><th style="width:30%">Del caso</th><th>Versión para el aula</th></tr>
+        <tr><td><b>Monitoreo con EEG</b></td><td>Observación docente con un registro sencillo de tiempo en tarea y señales de distracción.</td></tr>
+        <tr><td><b>Tarea adaptativa</b></td><td>Fichas con tres niveles de dificultad que el estudiante sube o baja según su avance.</td></tr>
+        <tr><td><b>Retroalimentación inmediata</b></td><td>Semáforo de atención, autoevaluación con caritas y comentarios cortos del docente.</td></tr>
+        <tr><td><b>8 semanas de práctica</b></td><td>Rutinas de 10 a 15 minutos, varias veces por semana, integradas a matemáticas y lectura.</td></tr>
+        <tr><td><b>Pre y post</b></td><td>Prueba corta al inicio y al final de cada periodo para ver el progreso individual.</td></tr>
+      </table>
+    </div>
+    <div class="col">
+      <div class="card"><h4>⚖️ Equidad</h4><p>Si una institución accede a estas tecnologías, debe dar prioridad a los estudiantes que más lo necesitan.</p></div>
+      <div class="card"><h4>👩‍🏫 Formación docente</h4><p>Ninguna herramienta funciona sin un docente que sepa interpretar sus datos y convertirlos en decisiones pedagógicas.</p></div>
+      <div class="card"><h4>👨‍👩‍👧 Familia y orientación</h4><p>El TDAH también se vive fuera del salón, por eso la familia, el orientador y los servicios de salud deben participar en el proceso.</p></div>
+      <div class="card"><h4>🧪 Probar antes de adoptar</h4><p>Antes de adoptar una neurotecnología conviene probarla con pocos estudiantes, medir antes y después, y decidir con base en esos resultados.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 CONCLUSIONES b -->
+<section class="page" data-sec="6" data-name="Recomendaciones" data-n="6">
+  <div class="ph"><span class="kicker">06 · Recomendaciones para otros contextos</span><h2>Lo que aprendimos</h2></div>
+  <div class="cols c64">
+    <div class="col"><div class="grid g2">
+      <div class="card"><h4>El papel del docente</h4><p>El EEG aporta información útil sobre la atención, pero las decisiones pedagógicas las sigue tomando el docente. La tecnología apoya su trabajo y no lo reemplaza.</p></div>
+      <div class="card"><h4>Adaptar la enseñanza</h4><p>El caso funcionó porque ajustaba la tarea a cada niño. Esa idea se puede aplicar en cualquier aula, tenga o no equipos especializados.</p></div>
+      <div class="card"><h4>Resultados por confirmar</h4><p>Los resultados son prometedores, pero todavía falta comprobar si duran y si se repiten en aulas como las nuestras.</p></div>
+      <div class="card"><h4>Uso responsable</h4><p>Cualquier uso de la neurotecnología debe proteger los datos cerebrales y la dignidad de cada niño desde el comienzo.</p></div>
+    </div></div>
+    <div class="col">
+      <div class="card quiz" id="refl"><h4>Para reflexionar</h4>
+        <p>¿Qué parte del caso podrías llevar mañana a tu aula?</p>
+        <div class="opts"><button class="opt">Ajustar la dificultad</button><button class="opt">Retroalimentación inmediata</button><button class="opt">Medir antes y después</button><button class="opt">Rutinas cortas</button></div>
+        <p class="fb" id="reflMsg" aria-live="polite"></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 REFERENCIAS -->
+<section class="page" data-sec="7" data-name="Referencias y equipo" data-n="7">
+  <div class="ph"><span class="kicker">07 · Referencias y equipo</span><h2>Referencias</h2></div>
+  <ol class="refs" id="refs"></ol>
+</section>
+
+<!-- 7 EQUIPO -->
+<section class="page" data-sec="7" data-name="Referencias y equipo" data-n="7">
+  <div class="ph"><span class="kicker">07 · Referencias y equipo</span><h2>Equipo y autoría</h2></div>
+  <div class="cols c64">
+    <div class="col"><table id="team"><tr><th>Integrante</th><th>Aporte</th></tr></table>
+      <p class="cite" style="margin-top:8px">Curso Neurotecnología Educativa y Gestión del Conocimiento (503408703) · Especialización en Neuropedagogía y Aprendizaje Autónomo · ECEDU · UNAD · 2026.</p></div>
+    <div class="col"><div class="card"><h4>Declaración de autoría y uso de inteligencia artificial</h4>
+      <p>El caso seleccionado, el análisis crítico y las respuestas a las preguntas 1 a 3 son de Diana Carolina Méndez Vásquez. La propuesta del caso de contraste es de Sandra Catalina Gelvez Machado. Gloria Angélica Lúquez Rodríguez aportó un análisis individual sobre realidad virtual y TDAH. Los indicadores del caso, las respuestas a las preguntas 4 y 5 y el diseño de este folleto son de Alberto José García Stave.</p>
+      <p>Se usó un asistente de inteligencia artificial como apoyo para organizar la estructura, sugerir redacción y maquetar esta versión interactiva. El equipo revisó, ajustó y validó todo el contenido y asume la responsabilidad por lo publicado.</p></div></div>
+  </div>
+</section>
+
+</main>
+<div class="pager"><button id="prev" aria-label="Página anterior">←<span class="b-t"> Anterior</span></button><span class="where" id="where"></span><div class="dots" id="dots"></div><div class="prog"><i id="prog"></i></div><span class="where" id="pg"></span><button id="next" aria-label="Página siguiente"><span class="b-t">Siguiente </span>→</button></div>
+
+<script>
+{
+const pages=[...document.querySelectorAll('.page')];
+pages.forEach((p,i)=>{if(p.classList.contains('cover'))return;const sh=document.createElement('div');sh.className='sheet';
+  [...p.children].forEach(c=>{if(!c.classList.contains('ph'))sh.appendChild(c)});
+  const l=document.createElement('span');l.className='pn l';l.textContent=i*2-1;const r=document.createElement('span');r.className='pn r';r.textContent=i*2;sh.append(l,r);p.appendChild(sh)});let cur=0,busy=false,first=true;
+const secs=[];pages.forEach((p,i)=>{const s=+p.dataset.sec;if(!secs[s])secs[s]={name:p.dataset.name,n:p.dataset.n,pages:[]};secs[s].pages.push(i)});
+const tabs=document.getElementById('tabs');
+secs.forEach((s,k)=>{const b=document.createElement('button');b.title=s.name;b.innerHTML=`<span class="n">${s.n}</span><span class="t">${s.name}</span>`;b.onclick=()=>goSec(k);tabs.appendChild(b)});
+function goSec(k){go(secs[k].pages[0])}
+function ui(){const s=+pages[cur].dataset.sec,S=secs[s],sub=S.pages.indexOf(cur);
+  [...tabs.children].forEach((b,j)=>b.setAttribute('aria-current',j===s));
+  tabs.children[s].scrollIntoView({block:'nearest',inline:'center'});
+  document.getElementById('prev').disabled=cur===0;document.getElementById('next').disabled=cur===pages.length-1;
+  document.getElementById('prog').style.width=(cur/(pages.length-1)*100)+'%';
+  document.getElementById('pg').textContent=(cur+1)+' / '+pages.length;
+  document.getElementById('where').textContent=S.name+(S.pages.length>1?` · ${sub+1} de ${S.pages.length}`:'');
+  const d=document.getElementById('dots');d.innerHTML='';if(S.pages.length>1)S.pages.forEach((pi,j)=>{const i=document.createElement('i');if(pi===cur)i.className='on';i.onclick=()=>go(pi);d.appendChild(i)});
+  try{history.replaceState(null,'','#p'+cur)}catch(e){}}
+const RM=matchMedia('(prefers-reduced-motion: reduce)'),BIG=matchMedia('(min-width:901px)');
+function go(i){i=Math.max(0,Math.min(pages.length-1,i));
+  if(first){first=false;cur=i;pages.forEach((p,j)=>p.classList.toggle('on',j===cur));ui();return}
+  if(busy||i===cur)return;busy=true;
+  const old=pages[cur],nw=pages[i],fwd=i>cur;cur=i;ui();
+  const os=old.querySelector('.sheet'),ns=nw.querySelector('.sheet');
+  if(BIG.matches&&!RM.matches&&old.classList.contains('cover')){coverFlip(old,nw);return}
+  if(BIG.matches&&!RM.matches&&os&&ns){pageTurn(old,nw,os,ns,fwd);return}
+  old.classList.add(fwd?'out-f':'out-b');
+  setTimeout(()=>{old.classList.remove('on','out-f','out-b');
+    nw.classList.add('on',fwd?'in-f':'in-b');
+    setTimeout(()=>{nw.classList.remove('in-f','in-b');busy=false},500)},300)}
+function coverFlip(old,nw){
+  const cr=old.getBoundingClientRect();
+  old.classList.remove('on');nw.classList.add('on');const ns=nw.querySelector('.sheet');ns.scrollTop=0;
+  const r=ns.getBoundingClientRect();
+  const front=old.cloneNode(true);front.classList.remove('on');front.removeAttribute('data-sec');
+  Object.assign(front.style,{position:'absolute',display:'flex',left:'50%',top:(cr.top-r.top)+'px',width:cr.width+'px',height:cr.height+'px',margin:'0',maxWidth:'none'});
+  front.classList.add('face');
+  old.classList.remove('on');nw.style.visibility='hidden';
+  const layer=document.createElement('div');layer.className='turn';
+  Object.assign(layer.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});
+  const mk=(src,clip,cls)=>{const c=src.cloneNode(true);c.removeAttribute('id');c.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));c.classList.add('tclone');if(cls)c.classList.add(cls);c.style.clipPath=clip;c.style.visibility='visible';return c};
+  const under=mk(ns,'inset(0 0 0 50%)');
+  const leaf=document.createElement('div');leaf.className='leaf';
+  const back=mk(ns,'inset(0 50% 0 0)','face');back.classList.add('back');
+  const sf=document.createElement('div');sf.className='shade sr';front.appendChild(sf);
+  const sb=document.createElement('div');sb.className='shade sl';back.appendChild(sb);
+  leaf.append(front,back);layer.append(under,leaf);document.body.appendChild(layer);
+  const dx=cr.left-(r.left+r.width/2);
+  const D=1300,E='cubic-bezier(.45,.05,.35,1)';
+  layer.animate([{transform:`translateX(${dx}px)`},{transform:'translateX(0)'}],{duration:D*.75,easing:E,fill:'forwards'});
+  under.animate([{opacity:.0},{opacity:1,offset:.25},{opacity:1}],{duration:D,fill:'forwards'});
+  leaf.animate([{transform:'rotateY(0deg)'},{transform:'rotateY(-180deg)'}],{duration:D,easing:E,fill:'forwards'});
+  sf.animate([{opacity:0},{opacity:.55}],{duration:D/2,easing:'ease-in',fill:'forwards'});
+  sb.animate([{opacity:.55},{opacity:.55,offset:.5},{opacity:0}],{duration:D,easing:'ease-out',fill:'forwards'});
+  setTimeout(()=>{nw.style.visibility='';const ph=nw.querySelector('.ph');ph&&ph.animate([{opacity:0,transform:'translateY(-6px)'},{opacity:1,transform:'none'}],{duration:400,easing:'ease-out'});layer.remove();busy=false},D+30)}
+function pageTurn(old,nw,os,ns,fwd){
+  old.classList.remove('on');nw.classList.add('on');ns.scrollTop=0;
+  const r=ns.getBoundingClientRect();
+  const L='inset(0 50% 0 0)',R='inset(0 0 0 50%)';
+  const layer=document.createElement('div');layer.className='turn';
+  Object.assign(layer.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});
+  const mk=(src,clip,cls)=>{const c=src.cloneNode(true);c.removeAttribute('id');c.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));c.classList.add('tclone');if(cls)c.classList.add(cls);c.style.clipPath=clip;c.scrollTop=0;return c};
+  const under=mk(os,fwd?L:R);
+  const leaf=document.createElement('div');leaf.className='leaf';
+  const front=mk(os,fwd?R:L,'face');const back=mk(ns,fwd?L:R,'face');back.classList.add('back');
+  const sf=document.createElement('div');sf.className='shade '+(fwd?'sr':'sl');front.appendChild(sf);
+  const sb=document.createElement('div');sb.className='shade '+(fwd?'sl':'sr');back.appendChild(sb);
+  leaf.append(front,back);layer.append(under,leaf);document.body.appendChild(layer);
+  const ph=nw.querySelector('.ph');ph&&ph.animate([{opacity:0,transform:'translateY(-6px)'},{opacity:1,transform:'none'}],{duration:450,easing:'ease-out'});
+  const D=820;
+  leaf.animate([{transform:'rotateY(0deg)'},{transform:`rotateY(${fwd?-180:180}deg)`}],{duration:D,easing:'cubic-bezier(.45,.05,.35,1)',fill:'forwards'});
+  sf.animate([{opacity:0},{opacity:.55}],{duration:D/2,easing:'ease-in',fill:'forwards'});
+  sb.animate([{opacity:.55},{opacity:.55,offset:.5},{opacity:0}],{duration:D,easing:'ease-out',fill:'forwards'});
+  setTimeout(()=>{layer.remove();busy=false},D+30)}
+document.getElementById('prev').onclick=()=>go(cur-1);document.getElementById('next').onclick=()=>go(cur+1);
+document.addEventListener('keydown',e=>{if(e.target.matches('input'))return;if(e.key==='ArrowRight'||e.key==='PageDown')go(cur+1);if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1)});
+go(parseInt((location.hash.match(/p(\d+)/)||[])[1]||0));
+// quiz
+const fbTxt=["El EEG registra la actividad eléctrica del cerebro, pero no puede saber qué está pensando el niño.","Marcadores como la relación theta/beta o el P300 se relacionan con la atención.","La tecnología apoya al docente, y las decisiones pedagógicas siguen siendo suyas.","Los neuroderechos exigen proteger la información cerebral (Guerrero, 2025)."];
+document.querySelectorAll('#quiz .q').forEach((q,qi)=>{const ok=+q.dataset.ok;q.querySelectorAll('.opt').forEach((b,bi)=>b.onclick=()=>{q.querySelectorAll('.opt').forEach(x=>x.classList.remove('ok','no'));b.classList.add(bi===ok?'ok':'no');q.querySelector('.fb').textContent=(bi===ok?'✔ Correcto. ':'✘ Revisa tu respuesta. ')+fbTxt[qi]})});
+// flips
+document.querySelectorAll('.flip').forEach(f=>{f.onclick=()=>f.classList.toggle('f');f.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f.classList.toggle('f')}}});
+// ruta
+const rb=[...document.querySelectorAll('#route button')],ph=[...document.querySelectorAll('.phase')];
+rb.forEach((b,i)=>b.onclick=()=>{rb.forEach((x,j)=>x.classList.toggle('on',i===j));ph.forEach((x,j)=>x.classList.toggle('on',i===j))});
+// simulador
+const SIM=[
+ ["Muy concentrado","#2E8B57","El sistema sube el nivel de la tarea y muestra una estrella de logro."],
+ ["Concentrado","#4F5BB0","El sistema mantiene el nivel y suma puntos para que el niño vea que su esfuerzo da resultado."],
+ ["Atención intermedia","#C98A1B","El sistema da una pista breve y un aviso visual para que el niño retome la tarea."],
+ ["Disperso","#D2643C","El sistema baja un poco la dificultad y divide la tarea en pasos más cortos."],
+ ["Muy disperso","#B03A5B","El sistema propone una pausa activa corta y luego continúa con una tarea más sencilla."]];
+const tbr=document.getElementById('tbr'),out=document.getElementById('simOut'),wp=document.getElementById('wavePath');
+function sim(){const v=+tbr.value,[n,c,t]=SIM[v-1];let d='M0 30';const amp=4+v*4.5,fr=0.06+(v-1)*0.035;for(let x=0;x<=300;x+=3){const y=30+Math.sin(x*fr)*amp*(0.6+0.4*Math.sin(x*0.013));d+=` L${x} ${y.toFixed(1)}`}wp.setAttribute('d',d);wp.setAttribute('stroke',c);out.innerHTML=`<b style="color:${c}">${n}.</b> ${t}`}
+tbr.addEventListener('input',sim);sim();
+// lista ética
+const cb=[...document.querySelectorAll('#check input')];function cu(){const n=cb.filter(x=>x.checked).length;document.getElementById('checkMsg').textContent=n+' de '+cb.length+' condiciones cumplidas'+(n===cb.length?' · la experiencia puede empezar con responsabilidad.':'.')}cb.forEach(x=>x.onchange=cu);cu();
+// reflexión
+const RF=["Puedes empezar con fichas de tres niveles de dificultad que el estudiante sube o baja según su avance.","Puedes empezar con un semáforo de atención o con caritas al final de cada actividad para que el niño vea cómo va.","Puedes empezar con una prueba corta al inicio y otra al final para ver el progreso de cada estudiante.","Puedes empezar con rutinas de 10 a 15 minutos, varias veces por semana, para practicar sin agotar la atención."];
+document.querySelectorAll('#refl .opt').forEach((b,i)=>b.onclick=()=>{document.querySelectorAll('#refl .opt').forEach(x=>x.classList.remove('ok'));b.classList.add('ok');document.getElementById('reflMsg').textContent=RF[i]});
+// equipo y referencias
+const TEAM=[["Diana Carolina Méndez Vásquez","Autora de la propuesta seleccionada (Li et al., 2025), del análisis crítico del caso y de las respuestas a las preguntas 1 a 3."],["Sandra Catalina Gelvez Machado","Propuesta y análisis del caso de neurofeedback con fNIRS (Rahimpour Jounghani et al., 2024), usado como contraste."],["Gloria Angélica Lúquez Rodríguez","Aporte individual sobre el uso de realidad virtual para apoyar a estudiantes con TDAH (Delgado-Reyes y Sánchez, 2021)."],["Alberto José García Stave","Indicadores del caso, respuestas a las preguntas 4 y 5, recomendaciones y diseño del folleto digital."]];
+const tt=document.getElementById('team');TEAM.forEach(([n,a])=>{const tr=document.createElement('tr');tr.innerHTML=`<td><b>${n}</b></td><td>${a}</td>`;tt.appendChild(tr)});
+const REFS=[
+["Barreto Ramírez, X., Pendolema, D. M., Moreira Rivera, J. M., Arteaga Gualan, F. F., & Marcillo Ponce, R. X. (2023). La neurotecnología educativa: estrategia didáctica para mejorar la atención en estudiantes de educación básica. *Latam: Revista Latinoamericana de Ciencias Sociales y Humanidades, 4*(4), 2.",""],
+["Guerrero, A. F. (2025). Neuroderechos en Colombia: autodeterminación informativa, integridad e identidad mental ante las neurotecnologías. *Prolegómenos, 28*, 13–22.","https://doi.org/10.18359/prole.7135"],
+["Li, Y., Tian, C., Xu, L., Pei, L., Huang, X., & Wang, X. (2025). EEG-guided adaptive learning: A new neuroeducational approach to the facilitation of cognitive control in ADHD children. *Child: Care, Health and Development, 51*(4), e70113.","https://doi.org/10.1111/cch.70113"],
+["Meza Montes, J. K., & Mendoza Zambrano, M. G. (2023). Revisión sistemática: tecnologías educativas emergentes en la formación docente de la sociedad del conocimiento en el contexto latinoamericano. *MQRInvestigar, 7*(1), 2527–2544.","https://doi.org/10.56048/MQR20225.7.1.2023.2527-2544"],
+["Rahimpour Jounghani, A., Gozdas, E., Dacorro, L., Avelar-Pereira, B., Reitmaier, S., Fingerhut, H., Hong, D. S., Elliott, G., Hardan, A. Y., Hinshaw, S. P., & Hosseini, S. M. H. (2024). Neuromonitoring-guided working memory intervention in children with ADHD. *iScience, 27*(11), 111087.","https://doi.org/10.1016/j.isci.2024.111087"]];
+const md=t=>t.replace(/&/g,'&amp;').replace(/\*([^*]+)\*/g,'<i>$1</i>');
+document.getElementById('refs').innerHTML=REFS.map(([t,u])=>`<li>${md(t)}${u?` <a href="${u}" target="_blank" rel="noopener">${u}</a>`:''}</li>`).join('');
+document.querySelector('.brand').onkeydown=e=>{if(e.key==='Enter')go(0)};
+
+window.go=go;
+}
+</script>
+</body>
+</html>
