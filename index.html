@@ -587,21 +587,9 @@ main{overflow:hidden}
 </section>
 
 <!-- 7 REFERENCIAS -->
-<section class="page" data-sec="7" data-name="Referencias y equipo" data-n="7">
-  <div class="ph"><span class="kicker">07 · Referencias y equipo</span><h2>Referencias</h2></div>
+<section class="page" data-sec="7" data-name="Referencias" data-n="7">
+  <div class="ph"><span class="kicker">07 · Referencias</span><h2>Referencias</h2></div>
   <ol class="refs" id="refs"></ol>
-</section>
-
-<!-- 7 EQUIPO -->
-<section class="page" data-sec="7" data-name="Referencias y equipo" data-n="7">
-  <div class="ph"><span class="kicker">07 · Referencias y equipo</span><h2>Equipo y autoría</h2></div>
-  <div class="cols c64">
-    <div class="col"><table id="team"><tr><th>Integrante</th><th>Aporte</th></tr></table>
-      <p class="cite" style="margin-top:8px">Curso Neurotecnología Educativa y Gestión del Conocimiento (503408703) · Especialización en Neuropedagogía y Aprendizaje Autónomo · ECEDU · UNAD · 2026.</p></div>
-    <div class="col"><div class="card"><h4>Declaración de autoría y uso de inteligencia artificial</h4>
-      <p>El caso seleccionado, el análisis crítico y las respuestas a las preguntas 1 a 3 son de Diana Carolina Méndez Vásquez. La propuesta del caso de contraste es de Sandra Catalina Gelvez Machado. Gloria Angélica Lúquez Rodríguez aportó un análisis individual sobre realidad virtual y TDAH. Los indicadores del caso, las respuestas a las preguntas 4 y 5 y el diseño de este folleto son de Alberto José García Stave.</p>
-      <p>Se usó un asistente de inteligencia artificial como apoyo para organizar la estructura, sugerir redacción y maquetar esta versión interactiva. El equipo revisó, ajustó y validó todo el contenido y asume la responsabilidad por lo publicado.</p></div></div>
-  </div>
 </section>
 
 </main>
@@ -709,8 +697,6 @@ const cb=[...document.querySelectorAll('#check input')];function cu(){const n=cb
 const RF=["Puedes empezar con fichas de tres niveles de dificultad que el estudiante sube o baja según su avance.","Puedes empezar con un semáforo de atención o con caritas al final de cada actividad para que el niño vea cómo va.","Puedes empezar con una prueba corta al inicio y otra al final para ver el progreso de cada estudiante.","Puedes empezar con rutinas de 10 a 15 minutos, varias veces por semana, para practicar sin agotar la atención."];
 document.querySelectorAll('#refl .opt').forEach((b,i)=>b.onclick=()=>{document.querySelectorAll('#refl .opt').forEach(x=>x.classList.remove('ok'));b.classList.add('ok');document.getElementById('reflMsg').textContent=RF[i]});
 // equipo y referencias
-const TEAM=[["Diana Carolina Méndez Vásquez","Autora de la propuesta seleccionada (Li et al., 2025), del análisis crítico del caso y de las respuestas a las preguntas 1 a 3."],["Sandra Catalina Gelvez Machado","Propuesta y análisis del caso de neurofeedback con fNIRS (Rahimpour Jounghani et al., 2024), usado como contraste."],["Gloria Angélica Lúquez Rodríguez","Aporte individual sobre el uso de realidad virtual para apoyar a estudiantes con TDAH (Delgado-Reyes y Sánchez, 2021)."],["Alberto José García Stave","Indicadores del caso, respuestas a las preguntas 4 y 5, recomendaciones y diseño del folleto digital."]];
-const tt=document.getElementById('team');TEAM.forEach(([n,a])=>{const tr=document.createElement('tr');tr.innerHTML=`<td><b>${n}</b></td><td>${a}</td>`;tt.appendChild(tr)});
 const REFS=[
 ["Barreto Ramírez, X., Pendolema, D. M., Moreira Rivera, J. M., Arteaga Gualan, F. F., & Marcillo Ponce, R. X. (2023). La neurotecnología educativa: estrategia didáctica para mejorar la atención en estudiantes de educación básica. *Latam: Revista Latinoamericana de Ciencias Sociales y Humanidades, 4*(4), 2.",""],
 ["Guerrero, A. F. (2025). Neuroderechos en Colombia: autodeterminación informativa, integridad e identidad mental ante las neurotecnologías. *Prolegómenos, 28*, 13–22.","https://doi.org/10.18359/prole.7135"],
